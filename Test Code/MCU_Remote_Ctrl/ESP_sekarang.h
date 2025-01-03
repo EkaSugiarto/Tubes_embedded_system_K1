@@ -3,15 +3,15 @@
 
 #include "esp32-hal-adc.h"
 struct {
-  int base, elbow, Alt;
+  int base, elbow, hook_tarik, hook_ulur;
 } servo_data;
 
-uint8_t broadcastAddress[] = { 0x24, 0xDC, 0xC3, 0xC6, 0xBE, 0x7C };
+uint8_t broadcastAddress[] = { 0x24, 0xDC, 0xC3, 0xC6, 0xBE, 0xDC };
 
 esp_now_peer_info_t peerInfo;
 
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  if (status == ESP_NOW_SEND_SUCCESS) Serial.println("Data terkirim ke AQMS!");
+  if (status == ESP_NOW_SEND_SUCCESS) Serial.println("Data terkirim ke MCU Act!");
   else Serial.println("Data gagal dikirim!");
 }
 

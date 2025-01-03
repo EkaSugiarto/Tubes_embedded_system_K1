@@ -3,7 +3,7 @@
 
 #include "ESP_sekarang.h"
 
-// MAC addr nya 24:dc:c3:c6:be:7c
+// MAC addr nya 24:dc:c3:c6:be:dc
 
 void setup() {
   Serial.begin(115200);
@@ -16,13 +16,20 @@ void setup() {
   ESP32PWM::allocateTimer(3);
 
   base.setPeriodHertz(50);  // standard 50 hz servo
-  base.attach(16);
+  base.attach(4);
 
   elbow.setPeriodHertz(50);  // standard 50 hz servo
-  elbow.attach(17);
+  elbow.attach(16);
+
+  hook.setPeriodHertz(50);  // standard 50 hz servo
+  hook.attach(17);
+
+  // elbow.setPeriodHertz(50);  // standard 50 hz servo
+  // elbow.attach(17);
 
   Serial.println("Setup complete");
 
+  C0S();
   C1S();
 
   vTaskDelete(NULL);
