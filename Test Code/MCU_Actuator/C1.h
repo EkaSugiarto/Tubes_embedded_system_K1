@@ -1,17 +1,17 @@
 #include <ESP32Servo.h>
 
-Servo base, elbow, hook;
+Servo base, elbow, hook, gripper;
 
-void Base_Act(void *pvParameters) {
+void BaseServo(void *pvParameters) {
   while (1) {
-    // xSemaphoreTake(Gas, portMAX_DELAY);
+    xSemaphoreTake(RunBaseMotor, portMAX_DELAY);
     base.write(servo_data.base);
 
     vTaskDelay(10 / portTICK_PERIOD_MS);
   }
 }
 
-void Elbow_Act(void *pvParameters) {
+void ElbowServo(void *pvParameters) {
   while (1) {
     elbow.write(servo_data.elbow);
 
@@ -19,7 +19,7 @@ void Elbow_Act(void *pvParameters) {
   }
 }
 
-void Hook_Act(void *pvParameters) {
+void HookServo(void *pvParameters) {
   while (1) {
     if (servo_data.hook_tarik > 0) hook.write(90 + servo_data.hook_tarik);
     else if (servo_data.hook_ulur > 0) hook.write(90 - servo_data.hook_ulur);
@@ -29,10 +29,18 @@ void Hook_Act(void *pvParameters) {
   }
 }
 
+void GripperServo(void *pvParameters) {
+  while (1) {
+    gripper.write(servo_data.gripper);
+
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+  }
+}
+
 void C1S() {
   xTaskCreatePinnedToCore(
-    Base_Act,
-    "Base_Act",
+    BaseServo,
+    "BaseServo",
     2048,
     NULL,
     5,
@@ -40,8 +48,8 @@ void C1S() {
     1);
 
   xTaskCreatePinnedToCore(
-    Elbow_Act,
-    "Elbow_Act",
+    ElbowServo,
+    "ElbowServo",
     2048,
     NULL,
     5,
@@ -49,8 +57,17 @@ void C1S() {
     1);
 
   xTaskCreatePinnedToCore(
-    Hook_Act,
-    "Hook_Act",
+    HookServo,
+    "HookServo",
+    2048,
+    NULL,
+    5,
+    NULL,
+    1);
+
+  xTaskCreatePinnedToCore(
+    GripperServo,
+    "GripperServo",
     2048,
     NULL,
     5,

@@ -2,6 +2,7 @@
 #include <WiFi.h>
 
 #include "esp32-hal-adc.h"
+
 struct {
   int base, elbow, hook_tarik, hook_ulur;
 } servo_data;
