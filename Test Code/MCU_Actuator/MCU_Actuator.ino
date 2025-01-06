@@ -1,12 +1,10 @@
-const int trigPin1 = 21;
-const int echoPin1 = 19;
+const int trigPin = 26;
+const int echoPin = 25;
 
 #include "ESPNow.h"
 
 #include "C0.h"
 #include "C1.h"
-
-// MAC addr 24:dc:c3:c6:be:dc
 
 void setup() {
   Serial.begin(115200);
@@ -28,10 +26,10 @@ void setup() {
   hook.attach(17);
 
   gripper.setPeriodHertz(50);
-  gripper.attach(18);
+  gripper.attach(5);
 
-  pinMode(trigPin1, OUTPUT);
-  pinMode(echoPin1, INPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
 
   C0S();
   C1S();
