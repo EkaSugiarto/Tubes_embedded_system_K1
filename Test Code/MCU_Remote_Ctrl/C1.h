@@ -1,3 +1,5 @@
+// Fungsi RTOS untuk menyalakan alarm ketika semaphore AlarmOn tersedia
+// Semaphore tersebut tersedia ketika tinggi dari gripper <5 cm
 void Alarm(void *pvParameters) {
   while (1) {
     xSemaphoreTake(AlarmOn, portMAX_DELAY);
@@ -9,6 +11,7 @@ void Alarm(void *pvParameters) {
   }
 }
 
+// Setup fungsi RTOS yang dijalankan di Core 1 ESP32
 void C1S() {
   xTaskCreatePinnedToCore(
     Alarm,

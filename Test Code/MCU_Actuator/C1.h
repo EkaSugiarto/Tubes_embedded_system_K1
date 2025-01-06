@@ -1,7 +1,9 @@
 #include <ESP32Servo.h>
 
+// Define objek servo
 Servo base, elbow, hook, gripper;
 
+// Fungsi RTOS untuk menjalankan servo base
 void BaseServo(void *pvParameters) {
   while (1) {
     xSemaphoreTake(RunBaseMotor, portMAX_DELAY);
@@ -11,6 +13,7 @@ void BaseServo(void *pvParameters) {
   }
 }
 
+// Fungsi RTOS untuk menjalankan servo elbow
 void ElbowServo(void *pvParameters) {
   while (1) {
     elbow.write(servo_data.elbow);
@@ -19,6 +22,7 @@ void ElbowServo(void *pvParameters) {
   }
 }
 
+// Fungsi RTOS untuk menjalankan servo hook
 void HookServo(void *pvParameters) {
   while (1) {
     if (servo_data.hook_tarik > 0) hook.write(90 + servo_data.hook_tarik);
@@ -29,6 +33,7 @@ void HookServo(void *pvParameters) {
   }
 }
 
+// Fungsi RTOS untuk menjalankan servo gripper
 void GripperServo(void *pvParameters) {
   while (1) {
     gripper.write(servo_data.gripper);
@@ -37,6 +42,7 @@ void GripperServo(void *pvParameters) {
   }
 }
 
+// Setup fungsi RTOS yang dijalankan di Core 1 ESP32
 void C1S() {
   xTaskCreatePinnedToCore(
     BaseServo,
